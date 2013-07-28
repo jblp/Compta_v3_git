@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pseudo">Votre pseudo</string>
+    <string name="mdp">Votre Mot de passe</string>
+    <string name="creer">Créer un compte</string>
+    <string name="forget">Mot de passe oublié</string>
+    <string name="remember">Rester connecté</string>
+    <string name="connexion">connexion</string>
+</resources>

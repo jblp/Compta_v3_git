@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">Accueil</string>
+    <string name="cOperation">Opérations</string>
+    <string name="cPeriodique">Actions périodiques</string>
+    <string name="cPeriodique1">Actions</string>
+    <string name="cPeriodique2">périodiques</string>
+    <string name="cSynth">Synthèses</string>
+    <string name="cCompte">Mon compte</string>
+    <string name="cParam">Paramètres</string>
+    <string name="cAbout">A propos</string>
+    <string name="deconnexion">Déconnexion</string>
+    
+    <dimen name="home_actionBar_height">45dp</dimen>
+    
+</resources>
