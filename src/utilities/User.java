@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 	
-	private int id;
+	private String id;
 	private String pseudo = null;
 	private String mdp = null;
 	private String mail = null;
@@ -28,11 +28,11 @@ public class User {
     public User () {}
     
     
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

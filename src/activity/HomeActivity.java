@@ -31,7 +31,7 @@ public class HomeActivity extends Activity {
 		Intent mainIntent = getIntent();
 		
 		// Récupération des extras dans un objet user
-		user.setId(mainIntent.getIntExtra("IDUSER", -1));
+		user.setId(mainIntent.getStringExtra("IDUSER"));
 		user.setPseudo(pseudo = mainIntent.getStringExtra("PSEUDO"));		
 		
 		actionBar.setText(pseudo);

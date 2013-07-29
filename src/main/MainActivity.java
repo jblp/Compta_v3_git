@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
         }
     };
     
+    
     public void connexion (View v) {
     	// Surveillance de l'état de connection au réseau internet
     	ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
@@ -88,30 +89,6 @@ public class MainActivity extends Activity {
         	task.setPseudo(user.getPseudo());
         	task.setPwd(user.getMdp());
 			task.execute();
-        	
-        	// Test de la validité des données
-        	if (user.getPseudo().equals("jb") && mdp.getText().toString().equals("a")) {
-        		user.setAuthenticate(true);
-        		
-        		// Si l'utilisateur veut resté conencté, on modifie la BDD Iuser
-    	        if (rmb.isChecked() && user.getAuthenticate()) {
-    	        	// On remplit un IUser pour modiffier la bdd
-    	        	iUser = new IUser(user.getId(), true, pseudo.getText().toString());
-    	        	
-    	        	//Création d'une instance de ma classe LivresBDD
-                    IUsersBDD iUserBdd = new IUsersBDD(this);
-                    iUserBdd.open();
-                    // Permet de mettre tous les users à Remember = null et de mettre à jour celui en cours de connexion
-                    iUserBdd.updateRememberBdd(iUser, iUser.getDate());
-                    iUserBdd.close();
-    	        }
-        		
-    	        // Lancement de l'intent pour passer à l'accueil
-    	        homeIntent(user.getId(), user.getPseudo());
-        	}
-        	else {
-        		Toast.makeText(MainActivity.this, "Les identifiants ne sont pas correctes", Toast.LENGTH_SHORT).show();
-        	}
     	}
     	else if (!isConnected){
     		Toast.makeText(MainActivity.this, "Aucune connexion internet disponible !", Toast.LENGTH_LONG).show();
@@ -161,12 +138,12 @@ public class MainActivity extends Activity {
         return iUserExiste;
     }
     
-    private class MyAsyncTask extends AsyncTask<Void, Integer, String>
+    private class MyAsyncTask extends AsyncTask<Void, Integer, User>
     {
 
     	private ProgressDialog dialogWait;
-    	private String pseudo = null;
-    	private String pwd = null;
+    	private String pseudoAsync = null;
+    	private String pwdAsync = null;
     	
     	@Override
     	protected void onPreExecute() {
@@ -176,36 +153,56 @@ public class MainActivity extends Activity {
     	}
 
     	@Override
-    	protected String doInBackground(Void... arg0) {
+    	protected User doInBackground(Void... arg0) {
     		// Création de l'objet en charge de la requete HTTP
     		HTTPBdd httpBdd = new HTTPBdd();
     		
-    		// Demande de réponse du serveur
-//    		User userServeur = httpBdd.getUserWithPseudo(pseudo, pwd);
-    		
-    		return httpBdd.getUserWithPseudo(pseudo, pwd);
+    		try {
+				return httpBdd.getUserWithPseudo(pseudoAsync, pwdAsync);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
     	}
 
     	@Override
-    	protected void onPostExecute(String result) {
+    	protected void onPostExecute(User result) {
     		// Fermeture de la boîte de dialogue
+    		user = result;
     		dialogWait.dismiss();
     		
-    		// Test du résultat de la requêtte
-    		if(result != null) {
-    			Toast.makeText(getApplicationContext(), "Le traitement asynchrone est terminé : " + result, Toast.LENGTH_LONG).show();
-    		}
-    		else {
-    			Toast.makeText(getApplicationContext(), "Le traitement asynchrone est terminé : Echec de la connexion au serveur", Toast.LENGTH_LONG).show();
-    		}
+    		// Test de la validité des données
+        	if (user != null) {
+        		user.setAuthenticate(true);
+        		
+        		// Si l'utilisateur veut resté conencté, on modifie la BDD Iuser
+    	        if (rmb.isChecked() && user.getAuthenticate()) {
+    	        	// On remplit un IUser pour modiffier la bdd
+    	        	iUser = new IUser(Integer.valueOf(user.getId()), true, pseudo.getText().toString());
+    	        	
+    	        	//Création d'une instance de ma classe LivresBDD
+                    IUsersBDD iUserBdd = new IUsersBDD(MainActivity.this);
+                    iUserBdd.open();
+                    // Permet de mettre tous les users à Remember = null et de mettre à jour celui en cours de connexion
+                    iUserBdd.updateRememberBdd(iUser, iUser.getDate());
+                    iUserBdd.close();
+    	        }
+        		
+    	        // Lancement de l'intent pour passer à l'accueil
+    	        homeIntent(Integer.valueOf(user.getId()), user.getPseudo());
+        	}
+        	else {
+        		Toast.makeText(MainActivity.this, "Les identifiants ne sont pas correctes", Toast.LENGTH_SHORT).show();
+        	}
     	}
     	
     	public void setPseudo(String pseudo) {
-    		this.pseudo = pseudo;
+    		this.pseudoAsync = pseudo;
     	}
     	
     	public void setPwd(String pwd) {
-    		this.pwd = pwd;
+    		this.pwdAsync = pwd;
     	}
     }
 }
