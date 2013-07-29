@@ -38,6 +38,7 @@ public class MainActivity extends Activity {
         // Récupération d'un éventuel utilisateur à connecter automatiquement
         iUser = existRemember();
         
+        //TOTO COMMIT
         if (iUser != null && iUser.timeOut()) {
         	homeIntent(iUser.getIdUser(), iUser.getPseudo());
         }
