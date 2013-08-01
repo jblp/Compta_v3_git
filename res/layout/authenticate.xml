@@ -8,6 +8,16 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/mBleu" >
+        
+    <TextView
+        android:id="@+id/titleAuthenticate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:textColor="@color/blanc"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/titre" />
     
     <RelativeLayout 
         android:layout_width="match_parent"
@@ -30,14 +40,18 @@
 	   	    android:layout_width="wrap_content"
 	       	android:layout_height="wrap_content"
 	       	android:text="@string/creer"
-	       	android:layout_below="@id/mdp" />
+	       	android:layout_below="@id/mdp"
+	       	android:clickable="true"
+	       	android:onClick="newCompte" />
 	   	<TextView 
 	   	    android:id="@+id/forget"
 	   	    android:layout_width="wrap_content"
 	       	android:layout_height="wrap_content"
 	       	android:text="@string/forget"
 	       	android:layout_alignRight="@id/mdp"
-	       	android:layout_below="@id/mdp" /> 	
+	       	android:layout_below="@id/mdp"
+	       	android:clickable="true"
+	       	android:onClick="forgetPwd" /> 	
 	   	<CheckBox
 		   	android:id="@+id/remember"
 		    android:layout_width="wrap_content"
@@ -52,7 +66,7 @@
 	       	android:text="@string/connexion"
 	       	android:onClick="connexion"
 	       	android:layout_alignRight="@id/mdp"
-	   	    android:layout_below="@id/remember" />"
+	   	    android:layout_below="@id/remember" />
 	   	</RelativeLayout>
     
 </RelativeLayout>

@@ -22,7 +22,7 @@ public class HTTPBdd extends Thread {
 	private User user = null;
 	private String ADRESSE = "http://82.216.240.106:5190/Android/scriptUserAndroid.php";
 	
-	// Types de requêtes
+	// Types de requÃªtes
 	private static String REQUEST_GET = "GET_USER";
 	private static String REQUEST_UPDATE = "UPDATE_USER";
 	private static String REQUEST_REMOVE = "REMOVE_USER";
@@ -30,7 +30,7 @@ public class HTTPBdd extends Thread {
 	
 	public boolean postData(List form) {
 		
-		/* Réponses serveur :
+		/* RÃ©ponses serveur :
 		- VOID = pas de user existant en bdd avec les identifiants fournis
 		- JSON rempli = existance de l'utilisateur */
 
@@ -56,7 +56,7 @@ public class HTTPBdd extends Thread {
 	
 	public User getUserWithPseudo(String pseudo, String pwd) throws Exception {
 		
-		// On ajoute nos données dans une liste
+		// On ajoute nos donnÃ©es dans une liste
 		List<NameValuePair> form = new ArrayList<NameValuePair>();
 		
         // On ajoute nos valeurs ici un identifiant et un message
@@ -67,7 +67,7 @@ public class HTTPBdd extends Thread {
 		if(postData(form)) {
 			user = new User();
 						
-			// Parse de l'objet retourné en JSON
+			// Parse de l'objet retournÃ© en JSON
 			user.setId(response.getString("id").toString());
 			user.setPseudo(response.getString("pseudo").toString());
 			

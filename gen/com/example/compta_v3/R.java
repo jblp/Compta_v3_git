@@ -42,37 +42,56 @@ public final class R {
         public static final int ic_menu_preferences=0x7f02000d;
         public static final int ic_menu_search=0x7f02000e;
         public static final int ic_menu_today=0x7f02000f;
+        public static final int ic_next_month=0x7f020010;
+        public static final int ic_previous_month=0x7f020011;
     }
     public static final class id {
         public static final int actionBarPath=0x7f090001;
         public static final int actionBarPseudo=0x7f090000;
-        public static final int action_settings=0x7f090010;
+        public static final int action_settings=0x7f09001f;
+        public static final int babout=0x7f09000e;
+        public static final int bcpt=0x7f09000a;
+        public static final int boperation=0x7f090004;
+        public static final int bparam=0x7f09000c;
+        public static final int bperiodique=0x7f090006;
+        public static final int bsynth=0x7f090008;
         public static final int button01=0x7f090003;
-        public static final int button02=0x7f090004;
-        public static final int button03=0x7f090005;
-        public static final int button04=0x7f090006;
-        public static final int button05=0x7f090007;
-        public static final int button06=0x7f090008;
-        public static final int connexion=0x7f09000f;
-        public static final int forget=0x7f09000d;
+        public static final int button02=0x7f090005;
+        public static final int button03=0x7f090007;
+        public static final int button04=0x7f090009;
+        public static final int button05=0x7f09000b;
+        public static final int button06=0x7f09000d;
+        public static final int connexion=0x7f09001d;
+        public static final int currentMonth=0x7f090013;
+        public static final int forget=0x7f09001b;
         public static final int imageView1=0x7f090002;
-        public static final int mdp=0x7f09000b;
-        public static final int newCompte=0x7f09000c;
-        public static final int pseudo=0x7f09000a;
-        public static final int remember=0x7f09000e;
-        public static final int title=0x7f090009;
+        public static final int lvOperation=0x7f090016;
+        public static final int mdp=0x7f090019;
+        public static final int newCompte=0x7f09001a;
+        public static final int nextMonthDate=0x7f090014;
+        public static final int nextMonthRow=0x7f090015;
+        public static final int previousMonthDate=0x7f090011;
+        public static final int previousMonthRow=0x7f090010;
+        public static final int pseudo=0x7f090018;
+        public static final int remember=0x7f09001c;
+        public static final int rlAuthenticate=0x7f09001e;
+        public static final int title=0x7f09000f;
+        public static final int titleActivity=0x7f090012;
+        public static final int titleAuthenticate=0x7f090017;
     }
     public static final class layout {
         public static final int activity_home=0x7f030000;
         public static final int activity_main=0x7f030001;
-        public static final int authenticate=0x7f030002;
+        public static final int activity_operation=0x7f030002;
+        public static final int authenticate=0x7f030003;
     }
     public static final class menu {
         public static final int home=0x7f080000;
+        public static final int operation=0x7f080001;
     }
     public static final class string {
-        public static final int action_settings=0x7f040012;
-        public static final int app_name=0x7f040011;
+        public static final int action_settings=0x7f040013;
+        public static final int app_name=0x7f040012;
         public static final int cAbout=0x7f04000e;
         public static final int cCompte=0x7f04000c;
         public static final int cOperation=0x7f040007;
@@ -85,12 +104,14 @@ public final class R {
         public static final int creer=0x7f040002;
         public static final int deconnexion=0x7f04000f;
         public static final int forget=0x7f040003;
-        public static final int hello_world=0x7f040014;
+        public static final int hello_world=0x7f040015;
         public static final int home=0x7f040006;
         public static final int mdp=0x7f040001;
         public static final int pseudo=0x7f040000;
         public static final int remember=0x7f040004;
-        public static final int title_activity_home=0x7f040013;
+        public static final int title_activity_home=0x7f040014;
+        public static final int title_activity_operation=0x7f040016;
+        public static final int title_operation=0x7f040011;
         public static final int titre=0x7f040010;
     }
     public static final class style {

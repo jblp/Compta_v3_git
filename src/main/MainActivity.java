@@ -29,16 +29,16 @@ public class MainActivity extends Activity {
 	private TextView mdp = null;
 	private CheckBox rmb = null;
 	private boolean isConnected = false;
+	public final static int REQUEST_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
-        // RÈcupÈration d'un Èventuel utilisateur ‡ connecter automatiquement
+        // R√©cup√©ration d'un √©ventuel utilisateur √† connecter automatiquement
         iUser = existRemember();
         
-        //TOTO COMMIT
         if (iUser != null && iUser.timeOut()) {
         	homeIntent(iUser.getIdUser(), iUser.getPseudo());
         }
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
     	super.onRestart();
     	
     	// Chargement du layout et de tout ce qu'il a besoin pour fonctionner
-    	setAuthenticateLayout();
+//    	setAuthenticateLayout();
     }
     
     private OnKeyListener okListener = new OnKeyListener() {
@@ -65,9 +65,9 @@ public class MainActivity extends Activity {
         }
     };
     
-    
+    // Fonction de connexion d'un utilisateur par authentification
     public void connexion (View v) {
-    	// Surveillance de l'Ètat de connection au rÈseau internet
+    	// Surveillance de l'√©tat de connection au r√©seau internet
     	ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
     	NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
     	
@@ -78,14 +78,14 @@ public class MainActivity extends Activity {
         	isConnected = false;
         }
     	
-    	// Tous les champs sont remplis et on a du rÈseau internet
+    	// Tous les champs sont remplis et on a du r√©seau internet
     	if (!pseudo.getText().toString().equals("") && !mdp.getText().toString().equals("") && isConnected) {
-    		// On remplit l'utilisateur avec les donnÈes
+    		// On remplit l'utilisateur avec les donn√©es
     		user = new User();
     		user.setPseudo(pseudo.getText().toString());
         	user.setMdp(mdp.getText().toString());
         	
-        	// Lancement de la t‚che asynchrone
+        	// Lancement de la t√©che asynchrone
         	MyAsyncTask task = new MyAsyncTask();
         	task.setPseudo(user.getPseudo());
         	task.setPwd(user.getMdp());
@@ -98,21 +98,41 @@ public class MainActivity extends Activity {
     		Toast.makeText(MainActivity.this, "Veuillez renseigner tous les champs", Toast.LENGTH_LONG).show();
     }
     
+    // Cr√©ation de l'itent qui affiche l'activit√© de l apage d'accueil
     private void homeIntent (int idUser, String pseudo) {
-    	// CrÈation de l'intent
+    	// Cr√©ation de l'intent
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
         // Ajout d'un extra
         intent.putExtra("IDUSER", idUser);
         intent.putExtra("PSEUDO", pseudo);
         // Lancement de l'intent
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE);
+    }
+    
+    // Fonction appel√©e pour r√©cup√©rer le retour de l'intent envoy√© √† Home_Activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      // On v√©rifie tout d'abord √† quel intent on fait r√©f√©rence ici √† l'aide de notre identifiant
+      if (requestCode == REQUEST_CODE) {
+        // On v√©rifie aussi que l'op√©ration s'est bien d√©roul√©e
+        if (resultCode == RESULT_OK) {
+        	// On a d√©connect√© proprement l'utilisateur
+        	// On affiche donc la page d'authentification
+        	setAuthenticateLayout();
+        }
+        else {
+        	// L'activit√© Home aura √©t√© quitt√©e avec le bouton "back"
+        	// On ferme donc l'application
+        	finish();
+        }
+      }
     }
     
     private void setAuthenticateLayout() {
     	// Chargement du layout d'authentification
         setContentView(R.layout.authenticate);
         
-        // RÈcupÈration des widgets nÈcessaires
+        // R√©cup√©ration des widgets n√©cessaires
         pseudo = (TextView)findViewById(R.id.pseudo);
         mdp = (TextView)findViewById(R.id.mdp);
         rmb = (CheckBox)findViewById(R.id.remember);
@@ -124,19 +144,24 @@ public class MainActivity extends Activity {
     private IUser existRemember() {
     	IUser iUserExiste = null;
     	
-    	//CrÈation d'une instance de ma classe LivresBDD
+    	//Cr√©ation d'une instance de ma classe LivresBDD
         IUsersBDD iUserBdd = new IUsersBDD(this);
- 
-        //On ouvre la base de donnÈes pour Ècrire dedans
+        //On ouvre la base de donn√©es pour √©crire dedans
         iUserBdd.open();      
-        
-        // RÈcupÈration du rÈsultat de la requÍte BDD
+        // R√©cup√©ration du r√©sultat de la requ√™te BDD
         iUserExiste = iUserBdd.getIUserWithRemember();
-        
         // Fermeture de la BDD
         iUserBdd.close();
         
         return iUserExiste;
+    }
+    
+    public void newCompte(View v) {
+    	Toast.makeText(MainActivity.this, "Cr√©ation d'un nouveau compte", Toast.LENGTH_LONG).show();
+    }
+    
+    public void forgetPwd(View v) {
+		Toast.makeText(MainActivity.this, "r√©g√©n√©ration d'un nouveau mdp", Toast.LENGTH_LONG).show();
     }
     
     private class MyAsyncTask extends AsyncTask<Void, Integer, User>
@@ -155,13 +180,12 @@ public class MainActivity extends Activity {
 
     	@Override
     	protected User doInBackground(Void... arg0) {
-    		// CrÈation de l'objet en charge de la requete HTTP
+    		// Cr√©ation de l'objet en charge de la requ√™te HTTP
     		HTTPBdd httpBdd = new HTTPBdd();
     		
     		try {
 				return httpBdd.getUserWithPseudo(pseudoAsync, pwdAsync);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}
@@ -169,28 +193,28 @@ public class MainActivity extends Activity {
 
     	@Override
     	protected void onPostExecute(User result) {
-    		// Fermeture de la boÓte de dialogue
+    		// Fermeture de la bo√©te de dialogue
     		user = result;
     		dialogWait.dismiss();
     		
-    		// Test de la validitÈ des donnÈes
+    		// Test de la validit√© des donn√©es
         	if (user != null) {
         		user.setAuthenticate(true);
         		
-        		// Si l'utilisateur veut restÈ conenctÈ, on modifie la BDD Iuser
+        		// Si l'utilisateur veut rest√© conenct√©, on modifie la BDD Iuser
     	        if (rmb.isChecked() && user.getAuthenticate()) {
     	        	// On remplit un IUser pour modiffier la bdd
     	        	iUser = new IUser(Integer.valueOf(user.getId()), true, pseudo.getText().toString());
     	        	
-    	        	//CrÈation d'une instance de ma classe LivresBDD
+    	        	//Cr√©ation d'une instance de ma classe LivresBDD
                     IUsersBDD iUserBdd = new IUsersBDD(MainActivity.this);
                     iUserBdd.open();
-                    // Permet de mettre tous les users ‡ Remember = null et de mettre ‡ jour celui en cours de connexion
+                    // Permet de mettre tous les users √† Remember = null et de mettre √† jour celui en cours de connexion
                     iUserBdd.updateRememberBdd(iUser, iUser.getDate());
                     iUserBdd.close();
     	        }
         		
-    	        // Lancement de l'intent pour passer ‡ l'accueil
+    	        // Lancement de l'intent pour passer √† l'accueil
     	        homeIntent(Integer.valueOf(user.getId()), user.getPseudo());
         	}
         	else {
