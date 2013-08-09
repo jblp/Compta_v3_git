@@ -1,3 +1,7 @@
+/********************************************************************************************************************************
+ *	source : https://github.com/commonsguy/cw-andtutorials/blob/master/15-HttpClient/Patchy/src/apt/tutorial/two/Patchy.java	*
+ *******************************************************************************************************************************/
+
 package HTTP;
 
 import java.util.ArrayList;
@@ -10,16 +14,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import utilities.Base64;
 import utilities.User;
+import BDD.IUser;
 import android.util.Log;
 
-public class HTTPBdd extends Thread {
+public class HTTPBddUser extends Thread {
 	
-	private User user = null;
+	private IUser iUser = null;
 	private String ADRESSE = "http://82.216.240.106:5190/Android/scriptUserAndroid.php";
 	
 	// Types de requêtes
@@ -50,11 +54,11 @@ public class HTTPBdd extends Thread {
 		}
 		catch (Throwable t) {
 			Log.e("Patchy", "Exception in updateStatus()", t);
-			return false;
+			return true;
 		}
 	}
 	
-	public User getUserWithPseudo(String pseudo, String pwd) throws Exception {
+	public IUser getUserWithPseudo(String pseudo, String pwd) throws Exception {
 		
 		// On ajoute nos données dans une liste
 		List<NameValuePair> form = new ArrayList<NameValuePair>();
@@ -65,16 +69,16 @@ public class HTTPBdd extends Thread {
 		form.add(new BasicNameValuePair("request", REQUEST_GET));
         
 		if(postData(form)) {
-			user = new User();
-						
-			// Parse de l'objet retourné en JSON
-			user.setId(response.getString("id").toString());
-			user.setPseudo(response.getString("pseudo").toString());
 			
-			return user;
+			// Parse de l'objet retourné en JSON
+			String[] param = {"", response.getString("id").toString(), response.getString("pseudo").toString(),
+							  response.getString("mail").toString(), response.getString("totalComptable").toString(),
+							  response.getString("totalBanque").toString(), response.getString("categories").toString()};
+			
+			return new IUser(param);
 		}
 		else {
-			return user;
+			return null;
 		}
 	}
 	

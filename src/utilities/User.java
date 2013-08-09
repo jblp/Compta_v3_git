@@ -7,24 +7,24 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 	
-	private String id;
-	private String pseudo = null;
-	private String mdp = null;
-	private String mail = null;
-	private int banque = 0;
-	private int comptable = 0;
-	private String remember = null; // Format = YYYY-MM-DD HH:MM:SS
-	private boolean authenticate = false;
+	private String 	id;
+	private String 	pseudo 			= null;
+	private String 	mdp 			= null;
+	private String 	mail 			= null;
+	private int 	banque 			= 0;
+	private int 	comptable		= 0;
+	private String 	remember 		= null; // Format = YYYY-MM-DD HH:MM:SS
+	private boolean authenticate 	= false;
 	
 	
-	// Variables nécessaires au hashage SAH-1
-	private static final String HEX_DIGITS = "0123456789abcdef";
-	private static final int BYTE_MSK = 0xFF;
-    private static final int HEX_DIGIT_MASK = 0xF;
-    private static final int HEX_DIGIT_BITS = 4;
+	// Variables nï¿½cessaires au hashage SAH-1
+	private static final String HEX_DIGITS 		= "0123456789abcdef";
+	private static final int 	BYTE_MSK		= 0xFF;
+    private static final int 	HEX_DIGIT_MASK	= 0xF;
+    private static final int 	HEX_DIGIT_BITS	= 4;
 	
     
-    // Constructeur par défaut
+    // Constructeur par dÃ©faut
     public User () {}
     
     
@@ -84,12 +84,6 @@ public class User {
 	public void setRemember(String remember) {
 		this.remember = remember;
 	}
-
-	private boolean isAuthenticate() {
-		this.mdp = null;
-		
-		return authenticate;
-	}
 	
 	public boolean getAuthenticate() {
 		return authenticate;
@@ -99,13 +93,12 @@ public class User {
 		this.authenticate = authenticate;
 	}
 	
-	// Fonction de déconnexion
-	public void deconnexion (int idUser) {
-		
+	public void setMdpToNull() {
+		this.mdp = null;
 	}
 	
-
-	// Les 3 fonctions suivantes permettent d'obtenir le même hash SHA-1 qu'avec PHP
+	
+	// Les 3 fonctions suivantes permettent d'obtenir le mï¿½me hash SHA-1 qu'avec PHP
 	public static String computeSha1OfString(final String message) 
     throws UnsupportedOperationException, NullPointerException {
         try {

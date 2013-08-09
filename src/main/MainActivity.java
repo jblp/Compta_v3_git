@@ -1,9 +1,8 @@
 package main;
 
-import utilities.User;
 import BDD.IUser;
 import BDD.IUsersBDD;
-import HTTP.HTTPBdd;
+import HTTP.HTTPBddUser;
 import activity.HomeActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -24,12 +23,13 @@ import com.example.compta_v3.R;
 public class MainActivity extends Activity {
 	
 	public IUser iUser = null;
-	public User user = null;
 	private TextView pseudo = null;
 	private TextView mdp = null;
 	private CheckBox rmb = null;
 	private boolean isConnected = false;
 	public final static int REQUEST_CODE = 0;
+	
+	private MyAsyncTask task = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,20 +39,12 @@ public class MainActivity extends Activity {
         // Récupération d'un éventuel utilisateur à connecter automatiquement
         iUser = existRemember();
         
-        if (iUser != null && iUser.timeOut()) {
-        	homeIntent(iUser.getIdUser(), iUser.getPseudo());
+        if (iUser != null){// && iUser.timeOut()) {
+        	homeIntent(String.valueOf(iUser.getIdUser()), iUser.getPseudo());
         }
         else {
         	setAuthenticateLayout();
         }
-    }
-    
-    @Override
-    protected void onRestart() {
-    	super.onRestart();
-    	
-    	// Chargement du layout et de tout ce qu'il a besoin pour fonctionner
-//    	setAuthenticateLayout();
     }
     
     private OnKeyListener okListener = new OnKeyListener() {
@@ -66,6 +58,7 @@ public class MainActivity extends Activity {
     };
     
     // Fonction de connexion d'un utilisateur par authentification
+    
     public void connexion (View v) {
     	// Surveillance de l'état de connection au réseau internet
     	ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
@@ -81,14 +74,18 @@ public class MainActivity extends Activity {
     	// Tous les champs sont remplis et on a du réseau internet
     	if (!pseudo.getText().toString().equals("") && !mdp.getText().toString().equals("") && isConnected) {
     		// On remplit l'utilisateur avec les données
-    		user = new User();
-    		user.setPseudo(pseudo.getText().toString());
-        	user.setMdp(mdp.getText().toString());
+    		iUser = new IUser();
+    		iUser.setPseudo(pseudo.getText().toString());
+    		iUser.setMdp(mdp.getText().toString());
         	
-        	// Lancement de la téche asynchrone
-        	MyAsyncTask task = new MyAsyncTask();
-        	task.setPseudo(user.getPseudo());
-        	task.setPwd(user.getMdp());
+        	// Lancement de la tâche asynchrone
+        	task = new MyAsyncTask();
+        	task.setPseudo(iUser.getPseudo());
+        	task.setPwd(iUser.getMdp());
+        	
+        	// Suppression du mdp dans l'objet user
+        	iUser.setMdpToNull();
+        	
 			task.execute();
     	}
     	else if (!isConnected){
@@ -99,12 +96,14 @@ public class MainActivity extends Activity {
     }
     
     // Création de l'itent qui affiche l'activité de l apage d'accueil
-    private void homeIntent (int idUser, String pseudo) {
+    private void homeIntent (String idUser, String pseudo) {
     	// Création de l'intent
         Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+        
         // Ajout d'un extra
-        intent.putExtra("IDUSER", idUser);
-        intent.putExtra("PSEUDO", pseudo);
+        intent.putExtra("idUser", iUser.getIdUser());
+        intent.putExtra("pseudo", iUser.getPseudo());
+        
         // Lancement de l'intent
         startActivityForResult(intent, REQUEST_CODE);
     }
@@ -144,7 +143,7 @@ public class MainActivity extends Activity {
     private IUser existRemember() {
     	IUser iUserExiste = null;
     	
-    	//Création d'une instance de ma classe LivresBDD
+    	//Création d'une instance de la classe IUsersBDD
         IUsersBDD iUserBdd = new IUsersBDD(this);
         //On ouvre la base de données pour écrire dedans
         iUserBdd.open();      
@@ -164,24 +163,26 @@ public class MainActivity extends Activity {
 		Toast.makeText(MainActivity.this, "régénération d'un nouveau mdp", Toast.LENGTH_LONG).show();
     }
     
-    private class MyAsyncTask extends AsyncTask<Void, Integer, User>
+    private class MyAsyncTask extends AsyncTask<Void, Integer, IUser>
     {
-
-    	private ProgressDialog dialogWait;
-    	private String pseudoAsync = null;
-    	private String pwdAsync = null;
+    	private ProgressDialog dialogWait	=	null;
+    	private String pseudoAsync 			=	null;
+    	private String pwdAsync 			=	null;
     	
     	@Override
     	protected void onPreExecute() {
     		super.onPreExecute();
     		// Lancement d'une boite de dialogue d'attente
-    		dialogWait = ProgressDialog.show(MainActivity.this, "", "Authentification...", true);
+    		dialogWait = new ProgressDialog(MainActivity.this);
+    		dialogWait.setMessage("Authentification...");
+    		dialogWait.setCancelable(true);
+    		dialogWait.show();
     	}
 
     	@Override
-    	protected User doInBackground(Void... arg0) {
+    	protected IUser doInBackground(Void... arg0) {
     		// Création de l'objet en charge de la requête HTTP
-    		HTTPBdd httpBdd = new HTTPBdd();
+    		HTTPBddUser httpBdd = new HTTPBddUser();
     		
     		try {
 				return httpBdd.getUserWithPseudo(pseudoAsync, pwdAsync);
@@ -190,35 +191,42 @@ public class MainActivity extends Activity {
 				return null;
 			}
     	}
-
+    	
     	@Override
-    	protected void onPostExecute(User result) {
-    		// Fermeture de la boéte de dialogue
-    		user = result;
-    		dialogWait.dismiss();
-    		
+    	protected void onPostExecute(IUser result) {
+    		// Fermeture de la boîte de dialogue
+    		iUser = result;
+    		dialogWait.cancel();
+    		    		
     		// Test de la validité des données
-        	if (user != null) {
-        		user.setAuthenticate(true);
+        	if (iUser != null) {
+        		iUser.setAuthenticate(true);
         		
+        		// Mise à jour de l'utilisateur en BDD intèrne
+        		//Création d'une instance de ma classe IUsersBDD
+                IUsersBDD iUserBdd = new IUsersBDD(MainActivity.this);
+                iUserBdd.open();
+        		
+                /********************************************************
+                 * Lancement de la commande d'update en BDD intèrne		*
+                 ********************************************************/
+                
         		// Si l'utilisateur veut resté conencté, on modifie la BDD Iuser
-    	        if (rmb.isChecked() && user.getAuthenticate()) {
-    	        	// On remplit un IUser pour modiffier la bdd
-    	        	iUser = new IUser(Integer.valueOf(user.getId()), true, pseudo.getText().toString());
+    	        if (rmb.isChecked() && iUser.getAuthenticate()) {
+    	        	// On change son statut de connexion automatique
+    	        	iUser.setIsRemember(true);
     	        	
-    	        	//Création d'une instance de ma classe LivresBDD
-                    IUsersBDD iUserBdd = new IUsersBDD(MainActivity.this);
-                    iUserBdd.open();
                     // Permet de mettre tous les users à Remember = null et de mettre à jour celui en cours de connexion
                     iUserBdd.updateRememberBdd(iUser, iUser.getDate());
-                    iUserBdd.close();
     	        }
-        		
-    	        // Lancement de l'intent pour passer à l'accueil
-    	        homeIntent(Integer.valueOf(user.getId()), user.getPseudo());
+    	        
+    	        iUserBdd.close();
+    	        
+    	        //Lancement de l'intent pour passer à l'accueil
+    	        homeIntent(iUser.getIdUser(), iUser.getPseudo());
         	}
         	else {
-        		Toast.makeText(MainActivity.this, "Les identifiants ne sont pas correctes", Toast.LENGTH_SHORT).show();
+        		Toast.makeText(MainActivity.this, "Les identifiants ne sont pas corrects", Toast.LENGTH_SHORT).show();
         	}
     	}
     	

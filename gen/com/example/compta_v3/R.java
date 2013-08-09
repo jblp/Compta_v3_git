@@ -13,6 +13,9 @@ public final class R {
     public static final class color {
         public static final int blanc=0x7f060001;
         public static final int mBleu=0x7f060000;
+        public static final int mLime=0x7f060002;
+        public static final int mOrange=0x7f060004;
+        public static final int mRouge=0x7f060003;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -43,12 +46,20 @@ public final class R {
         public static final int ic_menu_search=0x7f02000e;
         public static final int ic_menu_today=0x7f02000f;
         public static final int ic_next_month=0x7f020010;
-        public static final int ic_previous_month=0x7f020011;
+        public static final int ic_next_month_pressed=0x7f020011;
+        public static final int ic_previous_month=0x7f020012;
+        public static final int ic_previous_month_pressed=0x7f020013;
+        public static final int next_month_logo=0x7f020014;
+        public static final int previous_month_logo=0x7f020015;
     }
     public static final class id {
         public static final int actionBarPath=0x7f090001;
         public static final int actionBarPseudo=0x7f090000;
-        public static final int action_settings=0x7f09001f;
+        public static final int actionBarView=0x7f090010;
+        public static final int action_settings=0x7f09002b;
+        public static final int affichageBanque=0x7f090026;
+        public static final int affichageComptable=0x7f090025;
+        public static final int affichageNbrOperations=0x7f090018;
         public static final int babout=0x7f09000e;
         public static final int bcpt=0x7f09000a;
         public static final int boperation=0x7f090004;
@@ -61,37 +72,47 @@ public final class R {
         public static final int button04=0x7f090009;
         public static final int button05=0x7f09000b;
         public static final int button06=0x7f09000d;
-        public static final int connexion=0x7f09001d;
-        public static final int currentMonth=0x7f090013;
-        public static final int forget=0x7f09001b;
+        public static final int connexion=0x7f090023;
+        public static final int currentMonth=0x7f090014;
+        public static final int date=0x7f090028;
+        public static final int footerView=0x7f090017;
+        public static final int forget=0x7f090021;
         public static final int imageView1=0x7f090002;
-        public static final int lvOperation=0x7f090016;
-        public static final int mdp=0x7f090019;
-        public static final int newCompte=0x7f09001a;
-        public static final int nextMonthDate=0x7f090014;
-        public static final int nextMonthRow=0x7f090015;
-        public static final int previousMonthDate=0x7f090011;
-        public static final int previousMonthRow=0x7f090010;
-        public static final int pseudo=0x7f090018;
-        public static final int remember=0x7f09001c;
-        public static final int rlAuthenticate=0x7f09001e;
+        public static final int libelle=0x7f090027;
+        public static final int lvOperation=0x7f090019;
+        public static final int mdp=0x7f09001f;
+        public static final int montant=0x7f090029;
+        public static final int newCompte=0x7f090020;
+        public static final int nextMonthDate=0x7f090015;
+        public static final int nextMonthRow=0x7f090016;
+        public static final int noOperations=0x7f09001c;
+        public static final int pointe=0x7f09002a;
+        public static final int previousMonthDate=0x7f090012;
+        public static final int previousMonthRow=0x7f090011;
+        public static final int pseudo=0x7f09001e;
+        public static final int remember=0x7f090022;
+        public static final int rlAuthenticate=0x7f090024;
+        public static final int spinnerView=0x7f09001a;
         public static final int title=0x7f09000f;
-        public static final int titleActivity=0x7f090012;
-        public static final int titleAuthenticate=0x7f090017;
+        public static final int titleActivity=0x7f090013;
+        public static final int titleAuthenticate=0x7f09001d;
+        public static final int voidView=0x7f09001b;
     }
     public static final class layout {
         public static final int activity_home=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_operation=0x7f030002;
         public static final int authenticate=0x7f030003;
+        public static final int header_operation=0x7f030004;
+        public static final int operation_adapteur=0x7f030005;
     }
     public static final class menu {
         public static final int home=0x7f080000;
         public static final int operation=0x7f080001;
     }
     public static final class string {
-        public static final int action_settings=0x7f040013;
-        public static final int app_name=0x7f040012;
+        public static final int action_settings=0x7f040016;
+        public static final int app_name=0x7f040015;
         public static final int cAbout=0x7f04000e;
         public static final int cCompte=0x7f04000c;
         public static final int cOperation=0x7f040007;
@@ -103,15 +124,18 @@ public final class R {
         public static final int connexion=0x7f040005;
         public static final int creer=0x7f040002;
         public static final int deconnexion=0x7f04000f;
+        public static final int footer_operations=0x7f040011;
         public static final int forget=0x7f040003;
-        public static final int hello_world=0x7f040015;
+        public static final int hello_world=0x7f040018;
         public static final int home=0x7f040006;
+        public static final int loading=0x7f040013;
         public static final int mdp=0x7f040001;
+        public static final int noOperations=0x7f040014;
         public static final int pseudo=0x7f040000;
         public static final int remember=0x7f040004;
-        public static final int title_activity_home=0x7f040014;
-        public static final int title_activity_operation=0x7f040016;
-        public static final int title_operation=0x7f040011;
+        public static final int title_activity_home=0x7f040017;
+        public static final int title_activity_operation=0x7f040019;
+        public static final int title_operation=0x7f040012;
         public static final int titre=0x7f040010;
     }
     public static final class style {

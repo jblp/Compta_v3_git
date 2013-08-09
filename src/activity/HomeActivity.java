@@ -1,24 +1,20 @@
 package activity;
 
-import main.MainActivity;
-import utilities.User;
+import BDD.IUser;
 import BDD.IUsersBDD;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.compta_v3.R;
 
 public class HomeActivity extends Activity implements android.view.View.OnClickListener {
-
-	private int idUser				= -1;
-	private String pseudo			= null;
-	private User user				= new User();
+	
+	private IUser iUser;
 	private TextView actionBar		= null;
 	
 	private int ACTIVITY_OPERATION	= 1;
@@ -27,6 +23,8 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	private int ACTIVITY_COMPTE		= 4;
 	private int ACTIVITY_SETTINGS	= 5;
 	private int ACTIVITY_ABOUT		= 6;
+	
+	private Bundle bundle 			= null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +37,12 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 		Intent mainIntent = getIntent();
 		
 		// Récupération des extras dans un objet user
-		user.setId(mainIntent.getStringExtra("IDUSER"));
-		user.setPseudo(pseudo = mainIntent.getStringExtra("PSEUDO"));		
+		iUser = new IUser();
+		iUser.setPseudo(mainIntent.getStringExtra("pseudo"));
+		iUser.setIdUser(mainIntent.getStringExtra("idUser"));
 		
-		actionBar.setText(pseudo);
+		// On rempli l'actionBar
+		actionBar.setText(iUser.getPseudo());
 		
 		findViewById(R.id.boperation).setOnClickListener(this);
 		findViewById(R.id.bperiodique).setOnClickListener(this);
@@ -56,7 +56,7 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.boperation:
-			personalIntent(user, ACTIVITY_OPERATION);
+			personalIntent(iUser, ACTIVITY_OPERATION);
 			break;
 		case R.id.bperiodique:
 			Toast.makeText(this, "periodique", Toast.LENGTH_SHORT).show();
@@ -77,11 +77,12 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	}
 	
 	// Création de l'itent qui affiche l'activité correspondante au choix de l'utilisateur via le menu
-    private void personalIntent (User user, int activity) {
+    private void personalIntent (IUser iUser, int activity) {
     	// Création de l'intent en fonction de l'action déclenchée
         Intent intent = new Intent(HomeActivity.this, OperationActivity.class);
         // Ajout d'un extra
-        intent.putExtra("USER", "jb");
+        intent.putExtra("idUser", iUser.getIdUser());
+        
         // Lancement de l'intent
         startActivity(intent);
     }

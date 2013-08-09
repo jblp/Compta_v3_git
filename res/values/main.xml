@@ -2,8 +2,12 @@
 <resources>
     
     <string name="titre">Compta V3.0</string>
+    <string name="footer_operations">opération(s)</string>
     
-    <color name="mBleu">#0072c6</color>
+    <color name="mBleu">#0072C6</color>
     <color name="blanc">#FFFFFF</color>
+    <color name="mLime">#008000</color>
+    <color name="mRouge">#FF0000</color>
+    <color name="mOrange">#F6B811</color>
     
 </resources>
