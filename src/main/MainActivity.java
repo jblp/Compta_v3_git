@@ -58,7 +58,6 @@ public class MainActivity extends Activity {
     };
     
     // Fonction de connexion d'un utilisateur par authentification
-    
     public void connexion (View v) {
     	// Surveillance de l'état de connection au réseau internet
     	ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(CONNECTIVITY_SERVICE);
