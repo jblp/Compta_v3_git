@@ -3,6 +3,7 @@
     
     <string name="titre">Compta V3.0</string>
     <string name="footer_operations">opération(s)</string>
+    <string name="euro">€</string>
     
     <color name="mBleu">#0072C6</color>
     <color name="blanc">#FFFFFF</color>

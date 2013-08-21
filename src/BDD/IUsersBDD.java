@@ -62,19 +62,17 @@ public class IUsersBDD {
 		return bdd.insert(TABLE_IUSER, null, values);
 	}
  
-	public int updateIUser(String id, IUser iUser){
+	public int updateIUser(IUser iUser){
 		//La mise à jour d'un IUser dans la BDD fonctionne plus ou moins comme une insertion
-		//il faut simple préciser quelle IUser on doit mettre à jour gràce à l'ID
+		//il faut simplement préciser quelle IUser on doit mettre à jour gràce à l'ID
 		ContentValues values = new ContentValues();
-		values.put(COL_IDUSER, iUser.getIdUser());
 		values.put(COL_PSEUDO, iUser.getPseudo());
-		values.put(COL_REMEMBER, iUser.getRemember());
 		values.put(COL_MAIL, iUser.getMail());
 		values.put(COL_BANQUE, iUser.getBanque());
 		values.put(COL_COMPTABLE, iUser.getComptable());
 		values.put(COL_CATEGORIES, iUser.getCategoriesString());
 		
-		return bdd.update(TABLE_IUSER, values, COL_ID + " = " + id, null);
+		return bdd.update(TABLE_IUSER, values, COL_IDUSER + " = " + iUser.getIdUser(), null);
 	}
  
 	public int removeIUserWithIdUser(String idUser){
@@ -111,10 +109,10 @@ public class IUsersBDD {
 		iUser.setIdUser(c.getString(NUM_COL_IDUSER));
 		iUser.setPseudo(c.getString(NUM_COL_PSEUDO));
 		iUser.setRememberFromBdd(c.getString(NUM_COL_REMEMBER));
-		/*iUser.setMail(c.getString(NUM_COL_MAIL));
+		iUser.setMail(c.getString(NUM_COL_MAIL));
 		iUser.setComptable(c.getInt(NUM_COL_COMPTABLE));
 		iUser.setBanque(c.getInt(NUM_COL_BANQUE));
-		iUser.setCategories(c.getString(NUM_COL_CATEGORIES));*/
+		iUser.setCategories(c.getString(NUM_COL_CATEGORIES));
 		//On ferme le cursor
 		c.close();
  

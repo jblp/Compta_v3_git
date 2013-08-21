@@ -13,8 +13,8 @@ public class IUser {
 	private String pseudo			=	null;
 	private String mdp				=	null;
 	private String mail				=	null;
-	private int comptable			=	0;
-	private int banque				=	0;
+	private float comptable			=	-1;
+	private float banque			=	-1;
 	private String[] categories		=	null;
 	private String remember			=	null; // YYYYMMDD
 	private boolean isRemember 		= 	false;
@@ -22,7 +22,7 @@ public class IUser {
 	
 	static int TIME_OUT = 2; // en jours
 	
-	// Variables n�cessaires au hashage SAH-1
+	// Variables nécessaires au hashage SAH-1
 	private static final String HEX_DIGITS 		= "0123456789abcdef";
 	private static final int 	BYTE_MSK		= 0xFF;
 	private static final int 	HEX_DIGIT_MASK	= 0xF;
@@ -42,8 +42,8 @@ public class IUser {
 		this.idUser		= param[1];
 		this.pseudo		= param[2];
 		this.mail		= param[3];
-		this.comptable	= Integer.valueOf(param[4]);
-		this.banque		= Integer.valueOf(param[5]);
+		this.comptable	= Float.valueOf(param[4]);
+		this.banque		= Float.valueOf(param[5]);
 		this.categories	= param[6].split("/");
 	}
  
@@ -130,19 +130,19 @@ public class IUser {
 		this.mail = mail;
 	}
 
-	public int getComptable() {
+	public float getComptable() {
 		return comptable;
 	}
 
-	public void setComptable(int comptable) {
+	public void setComptable(float comptable) {
 		this.comptable = comptable;
 	}
 
-	public int getBanque() {
+	public float getBanque() {
 		return banque;
 	}
 
-	public void setBanque(int banque) {
+	public void setBanque(float banque) {
 		this.banque = banque;
 	}
 	
@@ -181,7 +181,7 @@ public class IUser {
 	}
 	
 	public String userToString() {
-		return id + " " + idUser + " " + pseudo + " " + remember;
+		return id + " " + idUser + " " + pseudo + " " + mail + " " + String.valueOf(comptable/100) + " " + String.valueOf(banque/100);
 	}
 	
 	// Les 3 fonctions suivantes permettent d'obtenir le m�me hash SHA-1 qu'avec PHP

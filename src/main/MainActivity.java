@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
 			task.execute();
     	}
     	else if (!isConnected){
-    		Toast.makeText(MainActivity.this, "Aucune connexion internet disponible !", Toast.LENGTH_LONG).show();
+    		Toast.makeText(MainActivity.this, "Aucune connexion internet disponible, Mode hors ligne activé !", Toast.LENGTH_LONG).show();
     	}
     	else
     		Toast.makeText(MainActivity.this, "Veuillez renseigner tous les champs", Toast.LENGTH_LONG).show();
@@ -206,9 +206,8 @@ public class MainActivity extends Activity {
                 IUsersBDD iUserBdd = new IUsersBDD(MainActivity.this);
                 iUserBdd.open();
         		
-                /********************************************************
-                 * Lancement de la commande d'update en BDD intèrne		*
-                 ********************************************************/
+                // Lancement de la commande d'update en BDD intèrne
+                iUserBdd.updateIUser(iUser);           
                 
         		// Si l'utilisateur veut resté conencté, on modifie la BDD Iuser
     	        if (rmb.isChecked() && iUser.getAuthenticate()) {

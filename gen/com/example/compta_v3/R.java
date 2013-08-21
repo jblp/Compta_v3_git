@@ -56,8 +56,9 @@ public final class R {
         public static final int actionBarPath=0x7f090001;
         public static final int actionBarPseudo=0x7f090000;
         public static final int actionBarView=0x7f090010;
-        public static final int action_settings=0x7f09002d;
-        public static final int affichageBanque=0x7f090028;
+        public static final int action_settings=0x7f090030;
+        public static final int add=0x7f09002b;
+        public static final int affichageBanque=0x7f090029;
         public static final int affichageComptable=0x7f090027;
         public static final int affichageNbrOperations=0x7f090018;
         public static final int babout=0x7f09000e;
@@ -76,15 +77,15 @@ public final class R {
         public static final int comptable=0x7f090025;
         public static final int connexion=0x7f090023;
         public static final int currentMonth=0x7f090014;
-        public static final int date=0x7f09002a;
-        public static final int decompte=0x7f09002c;
+        public static final int date=0x7f09002d;
+        public static final int decompte=0x7f09002f;
         public static final int footerView=0x7f090017;
         public static final int forget=0x7f090021;
         public static final int imageView1=0x7f090002;
-        public static final int libelle=0x7f090029;
+        public static final int libelle=0x7f09002c;
         public static final int listView1=0x7f090019;
         public static final int mdp=0x7f09001f;
-        public static final int montant=0x7f09002b;
+        public static final int montant=0x7f09002e;
         public static final int newCompte=0x7f090020;
         public static final int nextMonthDate=0x7f090015;
         public static final int nextMonthRow=0x7f090016;
@@ -95,6 +96,8 @@ public final class R {
         public static final int remember=0x7f090022;
         public static final int rlAuthenticate=0x7f090024;
         public static final int spinnerView=0x7f09001a;
+        public static final int symbolEuroBanque=0x7f09002a;
+        public static final int symbolEuroComptable=0x7f090028;
         public static final int title=0x7f09000f;
         public static final int titleActivity=0x7f090013;
         public static final int titleAuthenticate=0x7f09001d;
@@ -113,34 +116,36 @@ public final class R {
         public static final int operation=0x7f080001;
     }
     public static final class string {
-        public static final int action_settings=0x7f040018;
-        public static final int app_name=0x7f040017;
+        public static final int action_settings=0x7f04001a;
+        public static final int ajout=0x7f040008;
+        public static final int app_name=0x7f040019;
         public static final int banque=0x7f040007;
-        public static final int cAbout=0x7f040010;
-        public static final int cCompte=0x7f04000e;
-        public static final int cOperation=0x7f040009;
-        public static final int cParam=0x7f04000f;
-        public static final int cPeriodique=0x7f04000a;
-        public static final int cPeriodique1=0x7f04000b;
-        public static final int cPeriodique2=0x7f04000c;
-        public static final int cSynth=0x7f04000d;
+        public static final int cAbout=0x7f040011;
+        public static final int cCompte=0x7f04000f;
+        public static final int cOperation=0x7f04000a;
+        public static final int cParam=0x7f040010;
+        public static final int cPeriodique=0x7f04000b;
+        public static final int cPeriodique1=0x7f04000c;
+        public static final int cPeriodique2=0x7f04000d;
+        public static final int cSynth=0x7f04000e;
         public static final int comptable=0x7f040006;
         public static final int connexion=0x7f040005;
         public static final int creer=0x7f040002;
-        public static final int deconnexion=0x7f040011;
-        public static final int footer_operations=0x7f040013;
+        public static final int deconnexion=0x7f040012;
+        public static final int euro=0x7f040015;
+        public static final int footer_operations=0x7f040014;
         public static final int forget=0x7f040003;
-        public static final int hello_world=0x7f04001a;
-        public static final int home=0x7f040008;
-        public static final int loading=0x7f040015;
+        public static final int hello_world=0x7f04001c;
+        public static final int home=0x7f040009;
+        public static final int loading=0x7f040017;
         public static final int mdp=0x7f040001;
-        public static final int noOperations=0x7f040016;
+        public static final int noOperations=0x7f040018;
         public static final int pseudo=0x7f040000;
         public static final int remember=0x7f040004;
-        public static final int title_activity_home=0x7f040019;
-        public static final int title_activity_operation=0x7f04001b;
-        public static final int title_operation=0x7f040014;
-        public static final int titre=0x7f040012;
+        public static final int title_activity_home=0x7f04001b;
+        public static final int title_activity_operation=0x7f04001d;
+        public static final int title_operation=0x7f040016;
+        public static final int titre=0x7f040013;
     }
     public static final class style {
         /** 

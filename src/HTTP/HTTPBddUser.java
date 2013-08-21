@@ -17,13 +17,11 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import utilities.Base64;
-import utilities.User;
 import BDD.IUser;
 import android.util.Log;
 
 public class HTTPBddUser extends Thread {
 	
-	private IUser iUser = null;
 	private String ADRESSE = "http://82.216.240.106:5190/Android/scriptUserAndroid.php";
 	
 	// Types de requêtes
@@ -32,7 +30,7 @@ public class HTTPBddUser extends Thread {
 	private static String REQUEST_REMOVE = "REMOVE_USER";
 	private JSONObject response = null;
 	
-	public boolean postData(List form) {
+	public boolean postData(List<NameValuePair> form) {
 		
 		/* Réponses serveur :
 		- VOID = pas de user existant en bdd avec les identifiants fournis
@@ -54,7 +52,7 @@ public class HTTPBddUser extends Thread {
 		}
 		catch (Throwable t) {
 			Log.e("Patchy", "Exception in updateStatus()", t);
-			return true;
+			return false;
 		}
 	}
 	
@@ -82,8 +80,20 @@ public class HTTPBddUser extends Thread {
 		}
 	}
 	
-	public void updateUser(User newUser){
-		
+	public void updateUser(IUser user){
+		// On ajoute nos données dans une liste
+		List<NameValuePair> form = new ArrayList<NameValuePair>();
+
+		// On ajoute nos valeurs ici un identifiant et un message
+		form.add(new BasicNameValuePair("idUser", user.getIdUser()));
+		form.add(new BasicNameValuePair("pseudo", user.getPseudo()));
+		form.add(new BasicNameValuePair("mail", user.getMail()));
+		form.add(new BasicNameValuePair("comptable", String.valueOf(user.getComptable())));
+		form.add(new BasicNameValuePair("banque", String.valueOf(user.getBanque())));
+		form.add(new BasicNameValuePair("categories", user.getCategoriesString()));
+		form.add(new BasicNameValuePair("request", REQUEST_UPDATE));
+
+		postData(form);
 	}
 	
 	public void removeUser(int idUser){
