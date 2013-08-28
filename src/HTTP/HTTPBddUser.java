@@ -17,7 +17,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import utilities.Base64;
-import BDD.IUser;
+import BDD.User;
 import android.util.Log;
 
 public class HTTPBddUser extends Thread {
@@ -26,6 +26,7 @@ public class HTTPBddUser extends Thread {
 	
 	// Types de requêtes
 	private static String REQUEST_GET = "GET_USER";
+	private static String REQUEST_GET_USER = "GET_USER_ID";
 	private static String REQUEST_UPDATE = "UPDATE_USER";
 	private static String REQUEST_REMOVE = "REMOVE_USER";
 	private JSONObject response = null;
@@ -56,7 +57,7 @@ public class HTTPBddUser extends Thread {
 		}
 	}
 	
-	public IUser getUserWithPseudo(String pseudo, String pwd) throws Exception {
+	public User getUserWithPseudo(String pseudo, String pwd) throws Exception {
 		
 		// On ajoute nos données dans une liste
 		List<NameValuePair> form = new ArrayList<NameValuePair>();
@@ -67,20 +68,41 @@ public class HTTPBddUser extends Thread {
 		form.add(new BasicNameValuePair("request", REQUEST_GET));
         
 		if(postData(form)) {
-			
 			// Parse de l'objet retourné en JSON
-			String[] param = {"", response.getString("id").toString(), response.getString("pseudo").toString(),
+			String[] param = {"", response.getString("id").toString(), response.getString("pseudo").toString(), pwd,
 							  response.getString("mail").toString(), response.getString("totalComptable").toString(),
 							  response.getString("totalBanque").toString(), response.getString("categories").toString()};
 			
-			return new IUser(param);
+			return new User(param);
 		}
 		else {
 			return null;
 		}
 	}
 	
-	public void updateUser(IUser user){
+	public User getUserWithIdUser(String idUser) throws Exception {
+		
+		// On ajoute nos données dans une liste
+		List<NameValuePair> form = new ArrayList<NameValuePair>();
+		
+        // On ajoute nos valeurs ici un identifiant et un message
+		form.add(new BasicNameValuePair("idUser", idUser));
+		form.add(new BasicNameValuePair("request", REQUEST_GET_USER));
+        
+		if(postData(form)) {
+			// Parse de l'objet retourné en JSON
+			String[] param = {"", response.getString("id").toString(), response.getString("pseudo").toString(), "",
+							  response.getString("mail").toString(), response.getString("totalComptable").toString(),
+							  response.getString("totalBanque").toString(), response.getString("categories").toString()};
+			
+			return new User(param);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public void updateUser(User user){
 		// On ajoute nos données dans une liste
 		List<NameValuePair> form = new ArrayList<NameValuePair>();
 

@@ -6,19 +6,18 @@ import java.security.NoSuchAlgorithmException;
 
 import android.text.format.Time;
 
-public class IUser {
+public class User {
 	 
 	private String id				=	null;
 	private String idUser			=	null;
 	private String pseudo			=	null;
-	private String mdp				=	null;
+	private String hashMdp			=	null;
 	private String mail				=	null;
 	private float comptable			=	-1;
 	private float banque			=	-1;
 	private String[] categories		=	null;
 	private String remember			=	null; // YYYYMMDD
-	private boolean isRemember 		= 	false;
-	private boolean authenticate 	= 	false;
+	private String limit			=	null;
 	
 	static int TIME_OUT = 2; // en jours
 	
@@ -28,23 +27,17 @@ public class IUser {
 	private static final int 	HEX_DIGIT_MASK	= 0xF;
 	private static final int 	HEX_DIGIT_BITS	= 4;
 
-	public IUser(){}
- 
-	public IUser(String idUser, Boolean isRemember, String pseudo){
-		this.idUser = idUser;
-		this.pseudo = pseudo;
-		this.isRemember = isRemember;
-		this.setRemember();
-	}
+	public User(){}
 	
-	public IUser(String[] param) {
+	public User(String[] param) {
 		this.id			= param[0];
 		this.idUser		= param[1];
 		this.pseudo		= param[2];
-		this.mail		= param[3];
-		this.comptable	= Float.valueOf(param[4]);
-		this.banque		= Float.valueOf(param[5]);
-		this.categories	= param[6].split("/");
+		this.hashMdp	= param[3];
+		this.mail		= param[4];
+		this.comptable	= Float.valueOf(param[5]);
+		this.banque		= Float.valueOf(param[6]);
+		this.categories	= param[7].split("/");
 	}
  
 	public String getId() {
@@ -75,7 +68,7 @@ public class IUser {
 		return remember;
 	}
  
-	public void setRemember() {
+	public void setRemember(boolean isRemember) {
 		if (isRemember) {
 			this.remember = getDate();
 		}
@@ -86,14 +79,6 @@ public class IUser {
 	
 	public void setRememberFromBdd (String remember) {
 		this.remember = remember;
-	}
- 
-	public boolean isRemember() {
-		return isRemember;
-	}
-
-	public void setIsRemember(boolean isRemember) {
-		this.isRemember = isRemember;
 	}
 	
 	public String getDate() {
@@ -113,13 +98,18 @@ public class IUser {
 		else
 			return false;
 	}
-
-	public String getMdp() {
-		return mdp;
+	
+	public String getHashMdp() {
+		return hashMdp;
+	}
+	
+	public void setHashMdp(String hashMdp) {
+		this.hashMdp = hashMdp;
 	}
 
 	public void setMdp(String mdp) {
-		this.mdp = computeSha1OfString("kwsfv,DFVS>BV?nvsnvjs<VSD541a1-") + computeSha1OfString(mdp) + computeSha1OfString("Msfokv,xBVDNvnvnxnv4521dvnjfvDD,_-");
+		String cryptMdp = computeSha1OfString("kwsfv,DFVS>BV?nvsnvjs<VSD541a1-") + computeSha1OfString(mdp) + computeSha1OfString("Msfokv,xBVDNvnvnxnv4521dvnjfvDD,_-");
+		this.setHashMdp(cryptMdp);
 	}
 
 	public String getMail() {
@@ -150,7 +140,7 @@ public class IUser {
 		String categoriesString = categories[0];
 		
 		for(int i = 1; i < categories.length; i++) {
-			categoriesString = "/" + categories[i];
+			categoriesString += "/" + categories[i];
 		}
 		
 		return categoriesString;
@@ -168,18 +158,14 @@ public class IUser {
 		this.remember = remember;
 	}
 	
-	public void setMdpToNull() {
-		this.mdp = null;
+	public String getLimit() {
+		return limit;
 	}
-	
-	public void setAuthenticate(boolean authenticate) {
-		this.authenticate = authenticate;
+
+	public void setLimit(String limit) {
+		this.limit = limit;
 	}
-	
-	public boolean getAuthenticate() {
-		return authenticate;
-	}
-	
+
 	public String userToString() {
 		return id + " " + idUser + " " + pseudo + " " + mail + " " + String.valueOf(comptable/100) + " " + String.valueOf(banque/100);
 	}

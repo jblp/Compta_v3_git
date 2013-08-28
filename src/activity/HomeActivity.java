@@ -1,7 +1,7 @@
 package activity;
 
-import BDD.IUser;
-import BDD.IUsersBDD;
+import BDD.User;
+import BDD.UserBDD;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import com.example.compta_v3.R;
 
 public class HomeActivity extends Activity implements android.view.View.OnClickListener {
 	
-	private IUser iUser;
+	private User user;
 	private TextView actionBar		= null;
 	
 	private int ACTIVITY_OPERATION	= 1;
@@ -23,8 +23,6 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	private int ACTIVITY_COMPTE		= 4;
 	private int ACTIVITY_SETTINGS	= 5;
 	private int ACTIVITY_ABOUT		= 6;
-	
-	private Bundle bundle 			= null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +35,12 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 		Intent mainIntent = getIntent();
 		
 		// Récupération des extras dans un objet user
-		iUser = new IUser();
-		iUser.setPseudo(mainIntent.getStringExtra("pseudo"));
-		iUser.setIdUser(mainIntent.getStringExtra("idUser"));
+		user = new User();
+		user.setPseudo(mainIntent.getStringExtra("pseudo"));
+		user.setIdUser(mainIntent.getStringExtra("idUser"));
 		
-		// On rempli l'actionBar
-		actionBar.setText(iUser.getPseudo());
+		// On remplit l'actionBar
+		actionBar.setText(user.getPseudo());
 		
 		findViewById(R.id.boperation).setOnClickListener(this);
 		findViewById(R.id.bperiodique).setOnClickListener(this);
@@ -56,7 +54,7 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.boperation:
-			personalIntent(iUser, ACTIVITY_OPERATION);
+			personalIntent(user, ACTIVITY_OPERATION);
 			break;
 		case R.id.bperiodique:
 			Toast.makeText(this, "periodique", Toast.LENGTH_SHORT).show();
@@ -77,11 +75,11 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	}
 	
 	// Création de l'itent qui affiche l'activité correspondante au choix de l'utilisateur via le menu
-    private void personalIntent (IUser iUser, int activity) {
+    private void personalIntent (User user, int activity) {
     	// Création de l'intent en fonction de l'action déclenchée
         Intent intent = new Intent(HomeActivity.this, OperationActivity.class);
         // Ajout d'un extra
-        intent.putExtra("idUser", iUser.getIdUser());
+        intent.putExtra("idUser", user.getIdUser());
         
         // Lancement de l'intent
         startActivity(intent);
@@ -89,7 +87,7 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
 	
 	public void deconnexion(View v) {
 		//Création d'une instance de ma classe LivresBDD
-        IUsersBDD iUserBdd = new IUsersBDD(this);
+        UserBDD iUserBdd = new UserBDD(this);
         //On ouvre la base de donn�es pour �crire dedans
         iUserBdd.open();
         
@@ -106,12 +104,5 @@ public class HomeActivity extends Activity implements android.view.View.OnClickL
         
         // On ferme l'activité
         finish();
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.home, menu);
-		return true;
 	}
 }

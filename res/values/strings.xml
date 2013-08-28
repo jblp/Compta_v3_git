@@ -4,7 +4,7 @@
     <string name="app_name">Compta V3.0</string>
     <string name="action_settings">Paramètres</string>
     <string name="title_activity_home">Accueil</string>
-    <string name="hello_world">Hello world!</string>
     <string name="title_activity_operation">OperationActivity</string>
+    <string name="title_activity_add">AddActivity</string>
 
 </resources>
